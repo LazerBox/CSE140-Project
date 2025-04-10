@@ -1,3 +1,4 @@
+
 # Global variables
 pc = 0
 instructions = []  # We'll load the program.txt here
@@ -5,8 +6,12 @@ registers = [0] * 32  # 32 registers
 
 def load_program(file_name):
     global instructions
-    with open(file_name, 'r') as f:
-        instructions = [line.strip() for line in f.readlines()]
+    try:
+        with open(file_name, 'r') as f:
+            instructions = [line.strip() for line in f.readlines()]
+    except FileNotFoundError:
+        print(f"Error: The file '{file_name}' was not found. Please check the file path and try again.")
+        exit(1)  # Exit the program if the file is not found
 
 def Fetch():
     global pc
@@ -20,15 +25,8 @@ def Fetch():
 
 def Decode(instruction):
     print(f"Decoding instruction: {instruction}")
-    
-    # Assuming machine_to_binary logic is here.
-    # Replace this with actual decoding logic based on your instruction format
-    binary_instruction = ''.join(format(ord(c), '08b') for c in instruction)  # Example binary conversion
-    
-    # Process the binary instruction (this can be expanded based on your needs)
-    print(f"Decoded binary instruction: {binary_instruction}")
-    
-    return binary_instruction  # Or return decoded instruction object if needed
+    # Example placeholder: Actually, you'd split fields and check opcode, funct3, etc.
+    return "Decoded Instruction (placeholder)"
 
 def Execute(decoded_instruction):
     print(f"Executing: {decoded_instruction}")
@@ -45,7 +43,10 @@ def Writeback(decoded_instruction, memory_result):
     pass
 
 def main():
-    load_program('program.txt')  # Load your machine code
+    load_program('sample_part1.txt')  # Load first part
+    print("First part loaded. Now loading second part...")
+    load_program('sample_part2.txt')  # Load second part
+
     while True:
         print("\n--- Single-Cycle CPU Simulator ---")
         print("Choose an action:")
